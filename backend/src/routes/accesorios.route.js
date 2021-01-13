@@ -21,7 +21,7 @@ router.get('/:id',getAccesorio);
 router.post('/antiparraCreate',upload.single('imagen'),accesoriosValidator
 ,accesoriosValidatorResult, createAntiparra);
 router.get('/edit/:id', renderEditAntiparra);
-router.put('/update/:id',updateAntiparra,accesoriosValidator,accesoriosValidatorResult,);
+router.put('/update/:id',accesoriosValidator,accesoriosValidatorResult,updateAntiparra);
 router.delete('/delete/:id', deleteAntiparra);
 /* const {
     createAccesorio,
