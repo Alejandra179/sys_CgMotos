@@ -8,35 +8,26 @@ const {
     getAccesorio,
     createAntiparra,
     renderFormAntiparra,
-    renderEditAntiparra,
+    renderEdit,
     updateAntiparra,
     deleteAntiparra,
+    renderFormBaul,
+    createBaul,
+    updateBaul,
+    deleteBaul
 } = require('../controller/accesorios.controller');
 
-const {accesoriosValidator, accesoriosValidatorResult} = require('../validaciones/accesoriosValidator');
+const {accesorioValidator, accesorioValidatorResult} = require('../validaciones/accesoriosValidator');
 
 router.get('/', getAccesorios);
 router.get('/antiparraAdd',renderFormAntiparra);
 router.get('/:id',getAccesorio);
-router.post('/antiparraCreate',upload.single('imagen'),accesoriosValidator
-,accesoriosValidatorResult, createAntiparra);
-router.get('/edit/:id', renderEditAntiparra);
-router.put('/update/:id',accesoriosValidator,accesoriosValidatorResult,updateAntiparra);
+router.post('/antiparraCreate',upload.single('imagen'),createAntiparra);
+router.get('/edit/:id', renderEdit);
+router.put('/update/:id',updateAntiparra);
 router.delete('/delete/:id', deleteAntiparra);
-/* const {
-    createAccesorio,
-    addAccesorio,
-    renderAccesorios,
-    renderEdit,
-    updateAccesorio
-} = require('../controller/accesorios.controller.js')
-
-const { accesoriosValidatorResult, accesoriosValidator } = require('../validaciones/accesoriosValidator')
-router.get('/accesorios/add', addAccesorio);
-router.post('/accesorios/new-accesorio', accesoriosValidator,accesoriosValidatorResult,createAccesorio);
-router.get('/accesorios',renderAccesorios);
-router.get('/accesorios/edit/:id',renderEdit);
-router.put('/accesorios/edit/:id',updateAccesorio);
- */
+router.get('/baulAdd',renderFormBaul);
+router.post('/baulCreate',upload.single('imagen'),createBaul);
+router.put('/update/:id')
 
 module.exports = router; 

@@ -30,9 +30,10 @@ const StockSchema = new Schema({
     tamanio:{
         ancho: Number,
         largo: Number,
+        alto: Number,
         diametro: Number,
         espesor: Number,
-        talle: Number
+        talle: String
         
     },
     contenido_neto: String,
@@ -45,7 +46,7 @@ const StockSchema = new Schema({
     stock: 
         {
             cantidad: {
-                type:Number,
+                type: Number,
                 required: true
             },
             color: String

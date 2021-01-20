@@ -3,7 +3,7 @@ const Accesorio = require('../models/Stock');
 const { path } = require('path');
 
 accesoriosCtrl.getAccesorios = async(req, res) => {
-    const accesorios = await Accesorio.find({categoria:"accesorios"});
+    const accesorios = await Accesorio.find({categoria:"Accesorios"});
     res.status(200).json({accesorios});
 };
 //obtener
@@ -16,6 +16,7 @@ accesoriosCtrl.renderFormAntiparra = (req, res)=> {
     res.send('formulario');
 }
 const getFileExtension = (filename)=> filename.split('.').pop();
+
 accesoriosCtrl.createAntiparra = async(req, res)=> {
     const {
         marca_producto,
@@ -49,7 +50,7 @@ accesoriosCtrl.createAntiparra = async(req, res)=> {
 
 }
 //formulario para editar
-accesoriosCtrl.renderEditAntiparra = async (req, res)=>{
+accesoriosCtrl.renderEdit = async (req, res)=>{
     const accesorio = await Accesorio.findById(req.params.id);
     res.json({ accesorio });
 }
@@ -87,60 +88,89 @@ accesoriosCtrl.deleteAntiparra = async(req, res )=>{
     await Accesorio.findByIdAndDelete(req.params.id);
     res.status(200).json({success: true, message: 'accesorio eliminado correctamente'})
 }
-/* 
 
-
-accesoriosCtrl.renderAccesorios = async (req, res) => {
-    const accesorios = await Accesorio.find({categoria:"accesorios"});
-    res.render('accesorios/accesorios-list', {accesorios});
-};
-accesoriosCtrl.renderEdit = async (req, res) => {
-    const accesorios = await Accesorio.findById(req.params.id);
-    res.render('accesorios/edit-accesorio', { accesorios });
+accesoriosCtrl.renderFormBaul = (req, res) =>{
+    res.send('formulario para agregar baul');
 }
-
-accesoriosCtrl.updateAccesorio = async (req, res) => {
+accesoriosCtrl.createBaul = async(req, res)=> {
     const {
-        categoria,
-        subcategoria,
         marca_producto,
         descripcion,
-        tamanio,
-        contenido_neto,
-        detalles,
-        codigo,
-        precio
+        precio,
+    
     } = req.body;
-
     let stock = {
         cantidad: req.body.cantidad,
         color: req.body.color
     };
+    let tamanio = {
+        ancho: req.body.ancho,
+        largo: req.body.largo,
+        alto: req.body.alto,
+        talle: req.body.talle
+        
 
-    let marca_motos = [{
-            marca: req.body.marca1,
-            modelos: req.body.modelos1
-        },
-        {
-            marca: req.body.marca2,
-            modelos: req.body.modelos2
-        }
-    ];
-    await Accesorio.findByIdAndUpdate(req.params.id, {
+    }
+    const categoria= 'Accesorios';
+    const subcategoria = 'baules';
+    const newAccesorio = new Accesorio({
         categoria,
         subcategoria,
         marca_producto,
-        marca_motos,
         descripcion,
         tamanio,
-        contenido_neto,
-        detalles,
-        codigo,
         stock,
-        precio
+        precio,
+        imagen,
+        extension_img 
     });
-    req.flash('success_msg','Accesorio actualizado satisfactoriamente')
-    res.redirect('/accesorios');
-    //error para traer
-} */
+    await newAccesorio.save();
+    res.status(200).json({success: true, message:'accesorio agregado correctamente'})
+
+}
+
+
+accesoriosCtrl.updateBaul = async(req, res)=> {
+    const {
+        marca_producto,
+        descripcion,
+        precio,
+    
+    } = req.body;
+    let stock = {
+        cantidad: req.body.cantidad,
+        color: req.body.color
+    };
+    let tamanio = {
+        ancho: req.body.ancho,
+        largo: req.body.largo,
+        alto: req.body.alto,
+        talle: req.body.talle
+        
+
+    }
+    const categoria= 'Accesorios';
+    const subcategoria = 'baules';
+    const originalname = req.file.originalname;
+    const extension_img = getFileExtension(originalname);
+    const imagen = req.file.filename;
+    await Accesorio.findByIdAndUpdate(req.params.id,{
+        categoria,
+        subcategoria,
+        marca_producto,
+        descripcion,
+        tamanio,
+        stock,
+        precio,
+        imagen,
+        extension_img 
+    });
+    res.status(200).json({success: true, message:'accesorio agregado correctamente'})
+
+}
+
+accesoriosCtrl.deleteBaul = async(req, res )=>{
+    await Accesorio.findByIdAndDelete(req.params.id);
+    res.status(200).json({success: true, message: 'accesorio eliminado correctamente'})
+}
 module.exports = accesoriosCtrl;
